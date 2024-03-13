@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Module = require('../models/module');
-
+const { verifyToken } = require('../auth');
 // Get all modules
-router.get('/', async (req, res) => {
+router.get('/',verifyToken, async (req, res) => {
     try {
         const modules = await Module.find();
         res.json(modules);
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 // Post a module
-router.post('/', async (req, res) => {
+router.post('/',verifyToken, async (req, res) => {
     const module = new Module({
         moduleCode: req.body.moduleCode,
         moduleName: req.body.moduleName

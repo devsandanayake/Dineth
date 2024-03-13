@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Lecturer = require('../models/lecturer');
+const { verifyToken } = require('../auth');
 
 // Get all lecturers
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         const lecturers = await Lecturer.find();
         res.json(lecturers);
@@ -12,9 +13,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-
 // Post a lecturer
-router.post('/', async (req, res) => {
+router.post('/',verifyToken, async (req, res) => {
     const lecturer = new Lecturer({
         lecturerID: req.body.lecturerID,
         name: req.body.name,

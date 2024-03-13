@@ -4,9 +4,10 @@ const Timetable = require('../models/timetable');
 const Module = require('../models/module');
 const Lecturer = require('../models/lecturer');
 const Class = require('../models/class');
+const { verifyToken } = require('../auth');
 
 // Get all timetables
-router.get('/', async (req, res) => {
+router.get('/',verifyToken, async (req, res) => {
     try {
         const timetables = await Timetable.find();
         res.json(timetables);
@@ -17,7 +18,7 @@ router.get('/', async (req, res) => {
 
 
 // Post a timetable
-router.post('/', async (req, res) => {
+router.post('/',verifyToken, async (req, res) => {
      const { moduleCode, lecturerID, classID, startTime, endTime, day } = req.body;
 
      const existingModule = await Module.findOne({ moduleCode });

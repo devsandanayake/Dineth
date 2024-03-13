@@ -3,9 +3,9 @@ const router = express.Router();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const user = require('../models/user');
-const user = require('../models/user');
 
+ 
+process.env.SECRET_KEY = 'secret';
 
 // Get all users
 router.get('/', async (req, res) => {
@@ -64,7 +64,7 @@ router.post('/login', async (req, res) => {
                     role: user.role
                 };
                 const token = jwt.sign(playload, process.env.SECRET_KEY, { expiresIn: '1h' });
-                res.cookie('token', token, { httpOnly: true });
+                res.cookie('token', token , { httpOnly: true });
                 res.status(200).json({ message: 'Login successful' });
         }
         else {
@@ -80,3 +80,6 @@ router.post('/login', async (req, res) => {
     });
 
 });
+
+
+module.exports = router;

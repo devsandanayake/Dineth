@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Class = require('../models/class');
+const { verifyToken } = require('../auth');
 
 // Get all classes
-router.get('/', async (req, res) => {
+router.get('/',verifyToken, async (req, res) => {
     try {
         const classes = await Class.find();
         res.json(classes);
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 
 
 // Post a class
-router.post('/', async (req, res) => {
+router.post('/',verifyToken, async (req, res) => {
     const classes = new Class({
         classID: req.body.classID,
         location: req.body.location
