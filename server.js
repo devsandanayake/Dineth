@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
  
 
 
-const DB = 'mongodb+srv://sliit:sliit@cluster0.y6hogqq.mongodb.net/'
+const DB = 'mongodb+srv://sliit:sliit@cluster0.y6hogqq.mongodb.net/new'
 
 mongoose.connect(DB)
   .then(() => {
