@@ -4,9 +4,19 @@ const Lecturer = require('../models/lecturer');
 const { verifyToken } = require('../auth');
 
 // Get all lecturers
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const lecturers = await Lecturer.find();
+        res.json(lecturers);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+//Get a lecturer
+router.get('/:id', async (req, res) => {
+    try {
+        const lecturers = await Lecturer.findById(req.params.id);
         res.json(lecturers);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -52,7 +62,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
         const lecturer = await Lecturer.findByIdAndDelete(req.params.id);
-        
+        res.status(200).json({
+            success:true, massage:"Deleted Successfully"
+           })
         res.json(lecturer);
     } catch (err) {
         res.status(500).json({ message: err.message });
