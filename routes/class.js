@@ -4,7 +4,7 @@ const Class = require('../models/class');
 const { verifyToken } = require('../auth');
 
 // Get all classes
-router.get('/',verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const classes = await Class.find();
         res.json(classes);
@@ -13,6 +13,15 @@ router.get('/',verifyToken, async (req, res) => {
     }
 });
 
+//Get a class
+router.get('/:id', async (req, res) => {
+    try {
+        const classes = await Class.findById(req.params.id);
+        res.json(classes);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 // Post a class
 router.post('/',verifyToken, async (req, res) => {
@@ -49,7 +58,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
         const classes = await Class.findByIdAndDelete(req.params.id);
-         
+        res.status(200).json({
+            success:true, massage:"Deleted Successfully"
+           })
         res.json(classes);
     } catch (err) {
         res.status(500).json({ message: err.message });
