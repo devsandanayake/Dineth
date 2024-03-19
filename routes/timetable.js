@@ -91,9 +91,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 // Delete a timetable
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
-        const timetable = await Timetable.findById(req.params.id);
-        const deletedTimetable = await timetable.remove();
-        res.json(deletedTimetable);
+        const timetable = await Timetable.findByIdAndDelete(req.params.id);
+       
+        res.json(timetable);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

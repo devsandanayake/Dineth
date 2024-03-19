@@ -46,9 +46,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 // Delete a module
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
-        const module = await Module.findById(req.params.id);
-        const deletedModule = await module.remove();
-        res.json(deletedModule);
+        const module = await Module.findByIdAndDelete(req.params.id);
+         
+        res.json(module);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

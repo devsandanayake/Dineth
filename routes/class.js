@@ -48,9 +48,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 // Delete a class
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
-        const classes = await Class.findById(req.params.id);
-        const deletedClass = await classes.remove();
-        res.json(deletedClass);
+        const classes = await Class.findByIdAndDelete(req.params.id);
+         
+        res.json(classes);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
