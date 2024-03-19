@@ -51,9 +51,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 // Delete a lecturer
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
-        const lecturer = await Lecturer.findById(req.params.id);
-        const deletedLecturer = await lecturer.remove();
-        res.json(deletedLecturer);
+        const lecturer = await Lecturer.findByIdAndDelete(req.params.id);
+        
+        res.json(lecturer);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
