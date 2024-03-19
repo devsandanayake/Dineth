@@ -28,5 +28,33 @@ router.post('/',verifyToken, async (req, res) => {
     }
 });
 
+// Update a class
+router.patch('/:id',verifyToken, async (req, res) => {
+    try {
+        const classes = await Class.findById(req.params.id);
+        if (req.body.classID) {
+            classes.classID = req.body.classID;
+        }
+        if (req.body.location) {
+            classes.location = req.body.location;
+        }
+        const updatedClass = await classes.save();
+        res.json(updatedClass);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Delete a class
+router.delete('/:id',verifyToken, async (req, res) => {
+    try {
+        const classes = await Class.findById(req.params.id);
+        const deletedClass = await classes.remove();
+        res.json(deletedClass);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;
