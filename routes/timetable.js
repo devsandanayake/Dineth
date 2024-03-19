@@ -59,5 +59,45 @@ router.post('/',verifyToken, async (req, res) => {
     }
 });
 
+// Update a timetable
+router.patch('/:id',verifyToken, async (req, res) => {
+    try {
+        const timetable = await Timetable.findById(req.params.id);
+        if (req.body.moduleCode) {
+            timetable.moduleCode = req.body.moduleCode;
+        }
+        if (req.body.lecturerID) {
+            timetable.lecturerID = req.body.lecturerID;
+        }
+        if (req.body.classID) {
+            timetable.classID = req.body.classID;
+        }
+        if (req.body.startTime) {
+            timetable.startTime = req.body.startTime;
+        }
+        if (req.body.endTime) {
+            timetable.endTime = req.body.endTime;
+        }
+        if (req.body.day) {
+            timetable.day = req.body.day;
+        }
+        const updatedTimetable = await timetable.save();
+        res.json(updatedTimetable);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Delete a timetable
+router.delete('/:id',verifyToken, async (req, res) => {
+    try {
+        const timetable = await Timetable.findById(req.params.id);
+        const deletedTimetable = await timetable.remove();
+        res.json(deletedTimetable);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;

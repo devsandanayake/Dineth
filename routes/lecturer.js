@@ -28,5 +28,36 @@ router.post('/',verifyToken, async (req, res) => {
     }
 });
 
+// Update a lecturer
+router.patch('/:id',verifyToken, async (req, res) => {
+    try {
+        const lecturer = await Lecturer.findById(req.params.id);
+        if (req.body.lecturerID) {
+            lecturer.lecturerID = req.body.lecturerID;
+        }
+        if (req.body.name) {
+            lecturer.name = req.body.name;
+        }
+        if (req.body.department) {
+            lecturer.department = req.body.department;
+        }
+        const updatedLecturer = await lecturer.save();
+        res.json(updatedLecturer);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Delete a lecturer
+router.delete('/:id',verifyToken, async (req, res) => {
+    try {
+        const lecturer = await Lecturer.findById(req.params.id);
+        const deletedLecturer = await lecturer.remove();
+        res.json(deletedLecturer);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;

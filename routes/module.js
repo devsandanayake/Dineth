@@ -26,5 +26,33 @@ router.post('/',verifyToken, async (req, res) => {
     }
 });
 
+// Update a module
+router.patch('/:id',verifyToken, async (req, res) => {
+    try {
+        const module = await Module.findById(req.params.id);
+        if (req.body.moduleCode) {
+            module.moduleCode = req.body.moduleCode;
+        }
+        if (req.body.moduleName) {
+            module.moduleName = req.body.moduleName;
+        }
+        const updatedModule = await module.save();
+        res.json(updatedModule);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Delete a module
+router.delete('/:id',verifyToken, async (req, res) => {
+    try {
+        const module = await Module.findById(req.params.id);
+        const deletedModule = await module.remove();
+        res.json(deletedModule);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 
 module.exports = router;
