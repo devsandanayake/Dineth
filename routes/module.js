@@ -3,9 +3,19 @@ const router = express.Router();
 const Module = require('../models/module');
 const { verifyToken } = require('../auth');
 // Get all modules
-router.get('/',verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const modules = await Module.find();
+        res.json(modules);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+//Get a module
+router.get('/:id', async (req, res) => {
+    try {
+        const modules = await Module.findById(req.params.id);
         res.json(modules);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -47,7 +57,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
         const module = await Module.findByIdAndDelete(req.params.id);
-         
+        res.status(200).json({
+            success:true, massage:"Deleted Successfully"
+           })
         res.json(module);
     } catch (err) {
         res.status(500).json({ message: err.message });

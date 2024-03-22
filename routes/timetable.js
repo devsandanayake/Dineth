@@ -7,9 +7,18 @@ const Class = require('../models/class');
 const { verifyToken } = require('../auth');
 
 // Get all timetables
-router.get('/',verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const timetables = await Timetable.find();
+        res.json(timetables);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const timetables = await Timetable.findById(req.params.id);
         res.json(timetables);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -94,7 +103,9 @@ router.patch('/:id',verifyToken, async (req, res) => {
 router.delete('/:id',verifyToken, async (req, res) => {
     try {
         const timetable = await Timetable.findByIdAndDelete(req.params.id);
-       
+        res.status(200).json({
+        success:true, massage:"Deleted Successfully"
+       })
         res.json(timetable);
     } catch (err) {
         res.status(500).json({ message: err.message });
