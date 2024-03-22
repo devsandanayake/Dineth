@@ -69,7 +69,7 @@ router.post('/',verifyToken, async (req, res) => {
 });
 
 // Update a timetable
-router.patch('/:id', async (req, res) => {
+router.patch('/:id',verifyToken, async (req, res) => {
     try {
         const timetable = await Timetable.findById(req.params.id);
         if (req.body.moduleCode) {
