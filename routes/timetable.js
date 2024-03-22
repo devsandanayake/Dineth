@@ -69,7 +69,7 @@ router.post('/',verifyToken, async (req, res) => {
 });
 
 // Update a timetable
-router.patch('/:id',verifyToken, async (req, res) => {
+router.patch('/:id', async (req, res) => {
     try {
         const timetable = await Timetable.findById(req.params.id);
         if (req.body.moduleCode) {
@@ -113,7 +113,7 @@ router.delete('/:id',verifyToken, async (req, res) => {
 });
 
 //get updated timetable status
-router.get('/updated',verifyToken, async (req, res) => {
+router.post('/updated', async (req, res) => {
     try {
         const timetables = await Timetable.find({ status: 'updated' });
         res.json(timetables);
