@@ -24,6 +24,9 @@ const timetableSchema = new mongoose.Schema({
     day: {
         type: String,
         required: true
+    },
+    status: {
+        type: String
     }
 });
 

@@ -81,6 +81,8 @@ router.patch('/:id',verifyToken, async (req, res) => {
         if (req.body.day) {
             timetable.day = req.body.day;
         }
+
+        timetable.status = 'updated';
         const updatedTimetable = await timetable.save();
         res.json(updatedTimetable);
     } catch (err) {
@@ -94,6 +96,16 @@ router.delete('/:id',verifyToken, async (req, res) => {
         const timetable = await Timetable.findByIdAndDelete(req.params.id);
        
         res.json(timetable);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+//get updated timetable status
+router.get('/updated',verifyToken, async (req, res) => {
+    try {
+        const timetables = await Timetable.find({ status: 'updated' });
+        res.json(timetables);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
